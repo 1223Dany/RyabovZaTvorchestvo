@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  username     String   @unique
+  passwordHash String
+  role         String   @default("USER")
+  ratingScore  Float    @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  ratings      Rating[]
+}
+
+model Release {
+  id             String   @id @default(cuid())
+  title          String
+  artist         String
+  coverUrl       String?
+  type           String   @default("album")
+  releaseDate    DateTime?
+  description    String?
+  externalId     String?
+  externalSource String?
+  label          String?
+  trackCount     Int?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ratings        Rating[]
+
+  @@unique([externalSource, externalId])
+  @@index([artist])
+}
+
+model Rating {
+  id             String   @id @default(cuid())
+  userId         String
+  releaseId      String
+  rhymes         Int
+  structure      Int
+  style          Int
+  individuality  Int
+  vibe           Int
+  baseScore      Float
+  vibeMultiplier Float
+  finalScore     Float
+  reviewText     String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  release        Release  @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, releaseId])
+}
