@@ -12,7 +12,7 @@
     "db:setup": "prisma db push && tsx prisma/seed.ts",
     "import:ezhe": "tsx scripts/import-ezhemesyachnye.ts",
     "import:genius": "tsx scripts/import-genius-ezhe.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate && next build"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
