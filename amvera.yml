@@ -1,0 +1,15 @@
+meta:
+  environment: nodejs
+  port: 3000 # <-- Добавьте эту строку сюда
+  toolchain:
+    name: npm
+    version: 20
+build:
+  requirements:
+    - npx prisma generate
+  command: npm run build
+run:
+  persistence:
+    - mountPath: /app/prisma-data
+      name: data
+  command: npx prisma db push && npm run start
