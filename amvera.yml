@@ -8,4 +8,4 @@ run:
   persistence:
     - mountPath: /app/prisma-data
       name: data
-  command: npx prisma db push && npm run start
+  command: mkdir -p /app/prisma-data && npx prisma db push && npm run start
