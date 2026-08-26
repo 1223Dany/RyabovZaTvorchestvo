@@ -1,13 +1,15 @@
 meta:
   environment: nodejs
-  port: 3000 # <-- Добавьте эту строку сюда
+  port: 3000
   toolchain:
     name: npm
     version: 20
 build:
-  requirements:
-    - npx prisma generate
-  command: npm run build
+  steps:
+    - name: Generate Prisma Client
+      command: npx prisma generate
+    - name: Build Next.js
+      command: npm run build
 run:
   persistence:
     - mountPath: /app/prisma-data
